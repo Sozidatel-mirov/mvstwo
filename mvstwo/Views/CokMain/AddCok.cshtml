@@ -1,0 +1,47 @@
+﻿@model mvstwo.Model.Cok; 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<h2>Создание темы для цифрового образовательного контента</h2>
+<form method="post">
+    <p>
+        <label asp-for="Theme">Тема</label><br />
+        <input type="text" asp-for="Theme" style="width: 50%;" />
+    </p>
+    <p>
+        <label asp-for="Spo">СПО</label><br />
+        <input type="text" asp-for="Spo" style="width: 50%;" />
+    </p>
+@*     <p>
+        <label asp-for="Eom1">ЭОМ1</label><br />
+        <input type="text" asp-for="Eom1" style="width: 50%;" />
+    </p>
+    <p>
+        <label asp-for="Eom2">ЭОМ2</label><br />
+        <input type="text" asp-for="Eom2" style="width: 50%;" />
+    </p>
+    <p>
+        <label asp-for="Eom2">ЭОМ3</label><br />
+        <input type="text" asp-for="Eom3" style="width: 50%;" />
+    </p> *@
+    <p>
+        <label asp-for="Mdk">МДК</label><br />
+        <input type="text" asp-for="Mdk" style="width: 50%;" />
+    </p>
+    <p>
+        <label asp-for="Pm">Проф. модуль</label><br />
+        <input type="text" asp-for="Pm" style="width: 50%;" />
+    </p>
+
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>

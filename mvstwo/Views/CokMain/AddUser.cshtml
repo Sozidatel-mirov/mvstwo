@@ -1,0 +1,38 @@
+﻿@model mvstwo.Model.User; 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<h2>Добавить пользователя</h2>
+<form method="post">
+    <p>
+        <label>Имя</label><br />
+        <input type="text" asp-for="Firstname" style="width: 50%;" />
+    </p>
+    <p>
+        <label>Фамилия</label><br />
+        <input type="text" asp-for="Surename" style="width: 50%;" />
+    </p>
+    <p>
+        <label>Логин</label><br />
+        <input type="text" asp-for="Login" style="width: 50%;" />
+    </p>
+    <p>
+        <label>Пароль</label><br />
+        <input type="text" asp-for="Password" style="width: 50%;" />
+    </p>
+    <p>
+        <label>Роль на сайте (1 - студент, 2 - преподаватель, 3 - администратор)</label><br />
+        <input type="number" asp-for="RoleUser" style="width: 50%;" />
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>

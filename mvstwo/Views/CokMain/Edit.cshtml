@@ -1,0 +1,63 @@
+﻿@model mvstwo.Model.OkeiSiteContext;
+@{
+    // Получаем HttpContext из контекста представления
+    var httpContext = Context.Request.HttpContext;
+    // Получаем значение параметра IdCok из строки запроса
+    string idCok = httpContext.Request.Query["IdCok"];
+    int v = Model.Quests.FirstOrDefault(q => q.Test == @Model.Tests.FirstOrDefault(q => q.Id == @Model.TestBlocks.FirstOrDefault(q => q.VirtualTrainer == @Model.VirtualTrainers.FirstOrDefault(q => q.Eom == @Model.Eoms.FirstOrDefault(q => q.Id == @Model.Contents.FirstOrDefault(q => q.IdCoks == @Model.Coks.FirstOrDefault(q => q.Id == Convert.ToInt32(idCok)).Id).IdEom3).Id).Id).Test).Id).Id;
+    
+    var cok = Model.Coks.FirstOrDefault(q => q.Id == Convert.ToInt32(idCok));
+}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<h2>Создание темы для цифрового образовательного контента</h2>
+<form asp-action="edit" asp-controller="CokMain" method="post">
+    <p>
+        <label asp-for="@Model.Quests.FirstOrDefault(q=>q.Id == v).TextQuest">Текст вопроса</label><br />
+        <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Id == v).TextQuest" style="width: 50%;" />
+    </p>
+    <p hidden>
+        <label asp-for="@Model.Quests.FirstOrDefault(q=>q.Id == v).Id">Текст вопроса</label><br />
+        <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Id == v).Id" style="width: 50%;" />
+    </p>
+    <p hidden>
+        <label asp-for="@Model.Quests.FirstOrDefault(q=>q.Id == v).Test">Текст вопроса</label><br />
+        <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Id == v).Test" style="width: 50%;" />
+    </p>
+    @foreach (mvstwo.Model.Answer answer in Model.Answers.Where(q => q.Quest == v))
+    {
+        <p>
+            <label asp-for="@answer.TextAnswers">Ответ 1</label><br />
+            <input type="text" asp-for="@answer.TextAnswers" style="width: 50%;" />
+            <label asp-for="@answer.Id" hidden>Ответ 1</label><br />
+            <input type="hidden" asp-for="@answer.Id" />
+            <label asp-for="@answer.Quest" hidden>Ответ 1</label><br />
+            <input type="hidden" asp-for="@answer.Quest" />
+        </p>
+    }
+    @* <p>
+        <label asp-for="Eom1">ЭОМ1</label><br />
+        <input type="text" asp-for="Eom1" style="width: 50%;" />
+    </p>
+    <p>
+        <label asp-for="Eom2">ЭОМ2</label><br />
+        <input type="text" asp-for="Eom2" style="width: 50%;" />
+    </p>
+    <p>
+        <label asp-for="Eom2">ЭОМ3</label><br />
+        <input type="text" asp-for="Eom3" style="width: 50%;" />
+    </p> *@
+    
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>
