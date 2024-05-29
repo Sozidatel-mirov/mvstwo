@@ -1,6 +1,10 @@
 @model mvstwo.Model.OkeiSiteContext;
 @{
     int a = ViewBag.IdCok;
+    mvstwo.Model.Content cont = Model.Contents.FirstOrDefault(q => q.IdCoks == a);
+    mvstwo.Model.Eom eom1 = Model.Eoms.FirstOrDefault(q=>q.Id == cont.IdEom1);
+    mvstwo.Model.Eom eom2 = Model.Eoms.FirstOrDefault(q => q.Id == cont.IdEom2);
+    mvstwo.Model.Eom eom3 = Model.Eoms.FirstOrDefault(q => q.Id == cont.IdEom3);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +114,7 @@
                           <img class="ghgwreg" width="70" height="52" src="/image/icon/1.png" alt="">
                           <div class="ilehufrierg"></div>
                             <h3 class="iehrgie">
-                                @* @Model.Coks.FirstOrDefault(p=>p.Id==a).Id *@Default
+                                @eom1.Name
                             </h3>
                           <h3 class="engoergegr">Освоение нового<br> материала</h3>
                           <p class="modals__text">Видеолекция</p>
@@ -125,7 +129,7 @@
                           <img class="ghgwreg" width="70" height="52" src="/image/icon/2.png" alt="">
                           <div class="ilehufrierg"></div>
                             <h3 class="iehrgie">
-                                @* @Model.Coks.FirstOrDefault(p=>p.Id==a).Id *@Default
+                                @eom2.Name
                             </h3>
                           <h3 class="engoergegr">Применение<br> изученного<br> материала</h3>
                           <p class="modals__text">Виртуальный тренажер</p>
@@ -142,7 +146,7 @@
                           <img class="ghgwreg" width="70" height="52" src="/image/icon/3.png" alt="">
                           <div class="ilehufrierg" style="top: 53px;"></div>
                             <h3 class="iehrgie">
-                                @* @Model.Coks.FirstOrDefault(p=>p.Id==a).Id *@Default
+                                    @eom3.Name
                             </h3>
                           <h3 class="engoergegr">Диагностика<br> приобретенных<br> знаний, навыков</h3>
                           <p class="modals__text">Интарактивный тренажер по выполнению заданий</p>
@@ -164,7 +168,7 @@
                 <div>
                     <img src="/image/set.png" alt="">
                     <div class="dish__text">
-                        <h3>ФГОС СПО 09.02.07</h3>
+                        <h3>ФГОС СПО</h3>
                         <h4>@Model.Coks.FirstOrDefault(p=>p.Id==a).Spo</h4>
                         <h3>@Model.Coks.FirstOrDefault(p=>p.Id==a).Mdk</h3>
 

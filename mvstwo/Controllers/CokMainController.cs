@@ -106,29 +106,73 @@ namespace mvstwo.Controllers
             }
             return NotFound();
         }
-        public async Task<IActionResult> EditCok(int? IdCok)
+        [HttpPost]
+        public async Task<IActionResult> Edit(Quest quest)
         {
+                // Обновляем информацию о вопросе
+                db.Quests.Update(quest);
+
+                // Сохраняем все изменения в базе данных
+                await db.SaveChangesAsync();
+
+                // Возвращаем успешный результат в формате JSON
+                return Json(new { success = true });
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditCokPage(int IdCok)
+        {
+            ViewBag.f = IdCok;
             if (1 != null)
             {
-                Cok? cok = await db.Coks.FirstOrDefaultAsync(p => p.Id == IdCok);
-                if (cok != null) return RedirectToAction("Edit", 3);
+                Model.OkeiSiteContext cokContext = new OkeiSiteContext();
+                if (cokContext != null) return View(cokContext);
             }
             return NotFound();
         }
-
         [HttpPost]
-        public async Task<IActionResult> Edit(Quest quest, Answer[] answers)
+        public async Task<IActionResult> EditCok(Cok coks, List<Eom> eom1)
         {
-            db.Quests.Update(quest);
-            
-            foreach (Answer answer in answers)
+            db.Coks.Update(coks);
+            foreach(Eom eom in eom1)
             {
-                Console.WriteLine(answer.Id);
-                db.Answers.Update(answer);
+                db.Eoms.Update(eom);
             }
+            await db.SaveChangesAsync();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit2(Answer answer)
+        {
+            db.Answers.Update(answer);
 
             await db.SaveChangesAsync();
-            return RedirectToAction("Main");
+            return Json(new { success = true });
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public async Task<IActionResult> EditCok(int? IdCok)
+        //{
+        //    if (1 != null)
+        //    {
+        //        Cok? cok = await db.Coks.FirstOrDefaultAsync(p => p.Id == IdCok);
+        //        if (cok != null) return RedirectToAction("Edit", 3);
+        //    }
+        //    return NotFound();
+        //}
     }
 }
