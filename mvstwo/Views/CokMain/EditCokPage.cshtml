@@ -58,8 +58,13 @@
         <label>Тест id</label><br />
         <input type="text" asp-for="@Model.Coks.FirstOrDefault(q => q.Id == idCoknow).IdTeacher" style="width: 50%;" />
     </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>
     <br />
     <br />
+<form id="editEom" asp-action="editEom" asp-controller="CokMain" method="post">
     <p>
         <label>ЕОМ 1</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom1).Name" style="width: 50%;" />
@@ -68,7 +73,11 @@
         <label>Ответ 1</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom1).Id" style="width: 50%;" />
     </p>
-
+        <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>
+<form id="editEom1" asp-action="editEom" asp-controller="CokMain" method="post">
     <p>
         <label>ЕОМ 2</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom2).Name" style="width: 50%;" />
@@ -77,7 +86,11 @@
         <label>Ответ 1</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom2).Id" style="width: 50%;" />
     </p>
-
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>
+<form id="editEom2" asp-action="editEom" asp-controller="CokMain" method="post">
     <p>
         <label>ЕОМ 3</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom3).Name" style="width: 50%;" />
@@ -132,5 +145,71 @@
                 // Обработка ошибки (если нужно)
             });
     });
+    </script>
+<script>
+    document.getElementById('editEom').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
 
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editEom', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
 </script>
+<script>
+    document.getElementById('editEom1').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editEom', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+</script>
+<script>
+    document.getElementById('editEom2').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editEom', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+</script>
+

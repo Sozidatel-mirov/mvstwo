@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
-
+<body>
 <h2>Создание темы для цифрового образовательного контента</h2>
 <p>
     <label>Задание</label><br />
@@ -35,75 +35,128 @@
     <label>Тема</label><br />
     <input type="text" asp-for="@virtualTrainer.Id" style="width: 50%;" />
 </p>
-<form id="editForm" asp-action="edit" asp-controller="CokMain" method="post">
-    
-    
-@* <p>
-    <label>Тема</label><br />
-    <input type="text" asp-for="@Model.TestBlocks.FirstOrDefault(q=>q.VirtualTrainer == idContent).Textlection" style="width: 50%;" />
-</p>
-    <p hidden>
-        <label>тренажёр</label><br />
-        <input type="text" asp-for="@Model.TestBlocks.FirstOrDefault(q=>q.VirtualTrainer == idContent).VirtualTrainer" style="width: 50%;" />
-    </p>
-    <p hidden>
-        <label>код</label><br />
-        <input type="text" asp-for="@Model.TestBlocks.FirstOrDefault(q=>q.VirtualTrainer == idContent).Id" style="width: 50%;" />
-    </p>
-    <p hidden>
-        <label>тест</label><br />
-        <input type="text" asp-for="@Model.TestBlocks.FirstOrDefault(q=>q.VirtualTrainer == idContent).Test" style="width: 50%;" />
-    </p> *@
-        <p>
-            <label>Текст вопроса</label><br />
-        <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).TextQuest" style="width: 50%;" />
-        </p>
-        <p hidden>
-            <label>Тест id</label><br />
-        <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Id" style="width: 50%;" />
-        </p>
-        <p hidden>
-            <label>Теcn num</label><br />
-        <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Test" style="width: 50%;" />
-        </p>
-
-    <p>
-        <input type="submit" value="Сохранить" />
-    </p>
-</form> 
-<br/><br/>
-
 @{
     int i = 1;
 }
-@foreach (mvstwo.Model.Answer answer in Model.Answers.Where(q => q.Quest == @Model.Quests.FirstOrDefault(q => q.Test == idTest).Id))
+<br />
+@if (@Model.Quests.FirstOrDefault(q => q.Test == idTest) != null)
 {
-    <form id="editForm1-@answer.Id" asp-action="edit2" asp-controller="CokMain" method="post">
+    <form id="editForm" asp-action="edit" asp-controller="CokMain" method="post">
         <p>
-            <label>Ответ @i</label><br />
-            <input type="text" asp-for="@answer.TextAnswers" style="width: 50%;" />
+            <label>Текст вопроса</label><br />
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).TextQuest" style="width: 50%;" />
         </p>
         <p hidden>
-            <label>Ответ 1</label><br />
-            <input type="text" asp-for="@answer.Id" style="width: 50%;" />
+            <label>Тест id</label><br />
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Id" style="width: 50%;" />
         </p>
         <p hidden>
-            <label>Ответ 1</label><br />
-            <input type="text" asp-for="@answer.Quest" style="width: 50%;" />
+            <label>Теcn num</label><br />
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Test" style="width: 50%;" />
         </p>
-        <p hidden>
-            <label>Ответ 1</label><br />
-            <input type="text" asp-for="@answer.IsCorrect" style="width: 50%;"/>
-        </p>
-        @{
-            i++;
-        }
+
         <p>
             <input type="submit" value="Сохранить" />
         </p>
+
     </form>
+    @foreach (mvstwo.Model.Answer answer in Model.Answers.Where(q => q.Quest == @Model.Quests.FirstOrDefault(q => q.Test == idTest).Id))
+    {
+        <form id="editForm1-@answer.Id" asp-action="edit2" asp-controller="CokMain" method="post">
+            <p>
+                <label>Ответ @i</label><br />
+                <input type="text" asp-for="@answer.TextAnswers" style="width: 50%;" />
+            </p>
+            <p hidden>
+                <label>Ответ 1</label><br />
+                <input type="text" asp-for="@answer.Id" style="width: 50%;" />
+            </p>
+            <p hidden>
+                <label>Ответ 1</label><br />
+                <input type="text" asp-for="@answer.Quest" style="width: 50%;" />
+            </p>
+            <p hidden>
+                <label>Ответ 1</label><br />
+                <input type="text" asp-for="@answer.IsCorrect" style="width: 50%;" />
+            </p>
+            @{
+                i++;
+            }
+            <p>
+                <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+
+    }
+
+    <br />
+    <br />
+
 }
- 
+else if (Model.TestAccordBlocks.Where(q => q.Test == idTest) != null)
+{
+    @foreach (mvstwo.Model.TestAccordBlock testAccord in Model.TestAccordBlocks.Where(q => q.Test == idTest))
+    {
+        <form id="editAccordForm-@testAccord.Id" asp-action="editAccord" asp-controller="CokMain" method="post">
+            <label>Пара предложений - @i</label>
+            <br />
+        <p hidden>
+            <label>Текст вопроса</label><br />
+            <input type="text" asp-for="@testAccord.Id" style="width: 50%;" />
+        </p>
+            <p hidden>
+                <label>Текст вопроса</label><br />
+                <input type="text" asp-for="@testAccord.Test" style="width: 50%;" />
+            </p>
+        <p>
+            <label>Предложение 1</label><br />
+            <input type="text" asp-for="@testAccord.FirstPhrase" style="width: 50%;" />
+        </p>
+        <p>
+            <label>Предложение 2</label><br />
+            <input type="text" asp-for="@testAccord.SecondPhrase" style="width: 50%;" />
+        </p>
+        
+        @{
+            i++;
+        }
+            <p>
+                <input type="submit" value="Сохранить" />
+            </p>
+            <br />
+        </form>
+    }
+}
+else
+{
+
+}
+@foreach (mvstwo.Model.TestSequenceBlock testSequence in Model.TestSequenceBlocks.Where(q => q.Test == idTest))
+{
+    <form id="editSequenceForm-@testSequence.Id" asp-action="editSequence" asp-controller="CokMain" method="post">
+    <p hidden>
+        <label>Текст вопроса</label><br />
+        <input type="text" asp-for="@testSequence.Id" style="width: 50%;" />
+    </p>
+            <p hidden>
+                <label>Текст вопроса</label><br />
+                <input type="text" asp-for="@testSequence.Test" style="width: 50%;" />
+            </p>
+    <p>
+        <label>Предложение</label><br />
+        <input type="text" asp-for="@testSequence.Phrase" style="width: 50%;" />
+    </p>
+    <p>
+        <label>Номер в последовательности</label><br />
+        <input type="text" asp-for="@testSequence.Number" style="width: 50%;" />
+    </p>
+    <br />
+        <p>
+            <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+}
+</body>
  <script>
     document.getElementById('editForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Предотвращаем стандартное поведение формы
@@ -151,6 +204,54 @@
 </script>
 <script>
     document.querySelectorAll('[id^="editForm1-"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            var formData = new FormData(this); // Получаем данные формы
+
+            fetch(this.action, { // Используем URL действия формы
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сервера: ' + response.status);
+                    }
+                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+                })
+                .catch(error => {
+                    console.error('Ошибка отправки формы:', error);
+                    // Обработка ошибки (если нужно)
+                });
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('[id^="editAccordForm-"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            var formData = new FormData(this); // Получаем данные формы
+
+            fetch(this.action, { // Используем URL действия формы
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сервера: ' + response.status);
+                    }
+                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+                })
+                .catch(error => {
+                    console.error('Ошибка отправки формы:', error);
+                    // Обработка ошибки (если нужно)
+                });
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('[id^="editSequenceForm-"]').forEach(form => {
         form.addEventListener('submit', function (event) {
             event.preventDefault(); // Предотвращаем стандартное поведение формы
 

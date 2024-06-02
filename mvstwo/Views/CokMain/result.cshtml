@@ -1,17 +1,27 @@
+@model mvstwo.Model.OkeiSiteContext;
+@{
+    int nowPageTest = ViewBag.nowPage;
+    int a = ViewBag.IdCok;
+    int eom = @Model.Eoms.FirstOrDefault
+                    (q => q.Id == @Model.Contents.FirstOrDefault
+                        (q => q.IdCoks == @Model.Coks.FirstOrDefault
+                            (q => q.Id == a).Id).IdEom3).Id;
+    mvstwo.Model.Cok cok = Model.Coks.FirstOrDefault(q => q.Id == a);
+}   
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>Quiz</title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="/style1.css">
+		<link rel="stylesheet" href="/css/style1.css">
 		<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="HandheldFriendly" content="true"/>
-		<link rel="stylesheet" href="font.css">
+		
 		
 	</head>
-	<body>
+	<body style="background-color: rgb(230,233,237);">
 	<a asp-action="index" asp-controller="CokMain" class="back">На Главную</a>
 	<div id="wrapper">
 		<div id="container" class="show-green">
@@ -30,19 +40,19 @@
 				<div class="item-result row-results">
 					<div class="item-result_desc">
 						<div class="item-result_text">Выполнено задание</div>
-						<div class="item-result_title" id="language-I-check-completed">Паттерны проектирования</div>
+						<div class="item-result_title" id="language-I-check-completed">@Model.Eoms.FirstOrDefault(q => q.Id == eom).Name</div>
 					</div>
 					<div class="item-result_desc">
 						<div class="wrap-item-result_desc">
 							<div class="item-result_text">Тема</div>
-							<div class="item-result_title">Паттерны проектирования</div>
+							<div class="item-result_title">@cok.Theme</div>
 						</div>
 					</div>
 				</div>
 			<div class="item-result row-results">
 				<div class="item-result_desc">
 					<span class="language-Total-questions">Количество шагов</span> 
-					<span id="totalSteps" class="resultpage_desc_element js-answers-total">10</span>
+					<span id="totalSteps" class="resultpage_desc_element js-answers-total">@Model.VirtualTrainers.Where(q => q.Eom == eom).Count()</span>
 				</div>
 				<div class="item-result_desc">
 					<span class="language-Time-spent">Затраченное время</span> 
@@ -80,11 +90,11 @@
 			<button id="js-printReport" class="btn-print btn-report" onclick="print();">Печать Отчета</button>
 		</div>
 		<div class="item-result_desc">
-			<a asp-action="quiz" asp-controller="CokMain"  class="btn-retry" data-retry-module="">Повторить</a>
+			<a href="../eom3.html"  class="btn-retry" data-retry-module="">Повторить</a>
 			
 		
            </div>
-           <div class="place__line">
+           
 		   
 			  </div>
               <!-- <button class="place__back">На шаг назад</button>
@@ -94,7 +104,6 @@
 		   </main>
         </div>
     </div>
-		
     <div class="line">
 
     </div>
@@ -108,12 +117,13 @@
         var score = urlParams.get('score');
         var timeMinute = urlParams.get('timeMinute');
         var timeSecond = urlParams.get('timeSecond');
-		
+
         document.getElementById('timer').textContent = timeMinute + ":" + timeSecond;
         document.getElementById('correctCount').textContent = score;
-        document.getElementById('incorrectCount').textContent = 10 - score;
-        document.getElementById('balls').textContent = Math.round(score/2);
+        document.getElementById('incorrectCount').textContent = @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() - score;
+			document.getElementById('balls').textContent = Math.round(score / @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() * 5);
         
     </script>
 </body>
 </html>
+

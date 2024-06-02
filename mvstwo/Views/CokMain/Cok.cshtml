@@ -107,10 +107,12 @@
             <div class="dish__inner">
                 <div>
                     <div class="dish__block">
+                        <form id="fooForm" asp-controller="Cokmain" asp-action="place" method="get">
+                            <input type="number" name="IdCok" value="@a" readonly hidden>
                         <div class="eurhgierug">
-                            <a asp-action="place">
+                                <a href="#" id="submit_link">
                             <img src="/image/1.png" width="744" height="110" alt="">
-                          </a>
+                                    </a>
                           <img class="ghgwreg" width="70" height="52" src="/image/icon/1.png" alt="">
                           <div class="ilehufrierg"></div>
                             <h3 class="iehrgie">
@@ -120,8 +122,9 @@
                           <p class="modals__text">Видеолекция</p>
                           <a class="modal__hg" href="#openModal2">
 
-                          </a>
+                          </a> 
                         </div>
+                        </form>
                         <div class="eurhgierug">
                           <a href="place2.html">
                             <img src="/image/2.png" width="744" height="110" alt="">
@@ -137,9 +140,13 @@
 
                           </a>
                         </div>
-                        <form id="fooForm" asp-controller="Cokmain" asp-action="quiz" method="post">
+                        <form id="fooForm" asp-controller="Cokmain" asp-action="quiz" method="get">
                         <div class="eurhgierug">
                             <input type="number" name="IdCok" value="@a" readonly hidden>
+                                <input type="number" name="nowquiz" value="0" readonly hidden>
+                                <input type="number" name="score" value="0" readonly hidden>
+                <input type="number" name="timeMinute" value="00" readonly hidden>
+                <input type="number" name="timeSecond" value="00" readonly hidden>
                                 <a href="#" id="submit_link">
                             <img src="/image/3.png" width="744" height="110" alt="">
                                     </a>

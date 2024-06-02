@@ -34,9 +34,10 @@ namespace mvstwo.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Access");
         }
-        public async Task<IActionResult> Place()
+        public async Task<IActionResult> Place(int IdCok)
         {
-            return View(db);
+			ViewBag.IdCok = IdCok;
+			return View(db);
         }
         public async Task<IActionResult> Main()
         {
@@ -53,14 +54,20 @@ namespace mvstwo.Controllers
             ViewBag.rar = Logins.Value;
             return View(db);
         }
-        [HttpPost]
-        public async Task<IActionResult> Quiz(int IdCok)
+        
+        public async Task<IActionResult> Quiz(int IdCok, int nowquiz, int score, int timeMinute, int timeSecond)
         {
+            ViewBag.nowPage = nowquiz;
             ViewBag.IdCok = IdCok;
+            ViewBag.score = score;
+            ViewBag.minute = timeMinute;
+            ViewBag.second = timeSecond;
             return View(db);
         }
-        public async Task<IActionResult> Result()
+        public async Task<IActionResult> Result(int IdCok, int nowquiz)
         {
+            ViewBag.nowPage = nowquiz;
+            ViewBag.IdCok = IdCok;
             return View(db);
         }//
         public async Task<IActionResult> Edit1()
@@ -130,13 +137,17 @@ namespace mvstwo.Controllers
             return NotFound();
         }
         [HttpPost]
-        public async Task<IActionResult> EditCok(Cok coks, List<Eom> eom1)
+        public async Task<IActionResult> EditCok(Cok coks)
         {
             db.Coks.Update(coks);
-            foreach(Eom eom in eom1)
-            {
-                db.Eoms.Update(eom);
-            }
+            await db.SaveChangesAsync();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditEom(Eom eom1)
+        {
+            db.Eoms.Update(eom1);
+            
             await db.SaveChangesAsync();
             return Json(new { success = true });
         }
@@ -148,6 +159,23 @@ namespace mvstwo.Controllers
             await db.SaveChangesAsync();
             return Json(new { success = true });
         }
+        [HttpPost]
+        public async Task<IActionResult> EditAccord(TestAccordBlock testAccord)
+        {
+            db.TestAccordBlocks.Update(testAccord);
+
+            await db.SaveChangesAsync();
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditSequence(TestSequenceBlock testSequence)
+        {
+            db.TestSequenceBlocks.Update(testSequence);
+
+            await db.SaveChangesAsync();
+            return Json(new { success = true });
+        }
+
 
 
 
