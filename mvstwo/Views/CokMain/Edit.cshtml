@@ -22,6 +22,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+            </div>
+        </div>
+                
+    </header>
+</div>
 <h2>Создание темы для цифрового образовательного контента</h2>
 <p>
     <label>Задание</label><br />
@@ -41,7 +67,7 @@
 <br />
 @if (@Model.Quests.FirstOrDefault(q => q.Test == idTest) != null)
 {
-    <form id="editForm" asp-action="edit" asp-controller="CokMain" method="post">
+        <form id="editForm1-354" asp-action="edit" asp-controller="CokMain" method="post">
         <p>
             <label>Текст вопроса</label><br />
             <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).TextQuest" style="width: 50%;" />
@@ -55,7 +81,7 @@
             <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Test" style="width: 50%;" />
         </p>
 
-        <p>
+            <p hidden>
             <input type="submit" value="Сохранить" />
         </p>
 
@@ -82,7 +108,7 @@
             @{
                 i++;
             }
-            <p>
+                <p hidden>
                 <input type="submit" value="Сохранить" />
             </p>
         </form>
@@ -120,7 +146,7 @@ else if (Model.TestAccordBlocks.Where(q => q.Test == idTest) != null)
         @{
             i++;
         }
-            <p>
+                <p hidden>
                 <input type="submit" value="Сохранить" />
             </p>
             <br />
@@ -151,126 +177,147 @@ else
         <input type="text" asp-for="@testSequence.Number" style="width: 50%;" />
     </p>
     <br />
-        <p>
+            <p hidden>
             <input type="submit" value="Сохранить" />
             </p>
         </form>
 }
+    <form asp-action="editEomPage" asp-controller="CokMain" method="get">
+        <input type="number" name="IdCok" value="@Model.Contents.FirstOrDefault(q=>q.IdEom3==eom.Id).IdCoks" readonly hidden>
+        <p>
+            <input id="guram" type="submit" value="Сохранить" />
+        </p>
+    </form>
 </body>
- <script>
-    document.getElementById('editForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращаем стандартное поведение формы
-
-        var formData = new FormData(this); // Получаем данные формы
-
-        fetch('/CokMain/Edit', { // Замените на правильный URL вашего метода действия
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сервера: ' + response.status);
-                }
-                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
-            })
-            .catch(error => {
-                console.error('Ошибка отправки формы:', error);
-                // Обработка ошибки (если нужно)
-            });
-    });
-</script>
 <script>
-    document.getElementById('editCok').addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращаем стандартное поведение формы
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editSequenceForm-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
 
-        var formData = new FormData(this); // Получаем данные формы
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
 
-        fetch('/CokMain/editCok', { // Замените на правильный URL вашего метода действия
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка сервера: ' + response.status);
-                }
-                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
-            })
-            .catch(error => {
-                console.error('Ошибка отправки формы:', error);
-                // Обработка ошибки (если нужно)
-            });
-    });
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
 
-</script>
-<script>
-    document.querySelectorAll('[id^="editForm1-"]').forEach(form => {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение формы
-
-            var formData = new FormData(this); // Получаем данные формы
-
-            fetch(this.action, { // Используем URL действия формы
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка сервера: ' + response.status);
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
                     }
-                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
-                })
-                .catch(error => {
-                    console.error('Ошибка отправки формы:', error);
-                    // Обработка ошибки (если нужно)
-                });
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
         });
     });
 </script>
 <script>
-    document.querySelectorAll('[id^="editAccordForm-"]').forEach(form => {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение формы
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editAccordForm-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
 
-            var formData = new FormData(this); // Получаем данные формы
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
 
-            fetch(this.action, { // Используем URL действия формы
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка сервера: ' + response.status);
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
                     }
-                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
-                })
-                .catch(error => {
-                    console.error('Ошибка отправки формы:', error);
-                    // Обработка ошибки (если нужно)
-                });
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
         });
     });
 </script>
 <script>
-    document.querySelectorAll('[id^="editSequenceForm-"]').forEach(form => {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение формы
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editForm1-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
 
-            var formData = new FormData(this); // Получаем данные формы
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
 
-            fetch(this.action, { // Используем URL действия формы
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка сервера: ' + response.status);
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
                     }
-                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
-                })
-                .catch(error => {
-                    console.error('Ошибка отправки формы:', error);
-                    // Обработка ошибки (если нужно)
-                });
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
+        });
+    });
+</script>
+<script>
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[editForm]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
+
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
+
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
+                    }
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
         });
     });
 </script>

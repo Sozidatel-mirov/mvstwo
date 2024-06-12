@@ -1,0 +1,184 @@
+@model mvstwo.Model.OkeiSiteContext;
+@{
+    var coksT = Model.ResultsTests.ToList();
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цифровой образовательный контент «Оренбургский колледж экономики и информатики»</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main">
+        <header class="header">
+            <div class="container">
+                <div class="inner2">
+                    <nav>
+                        <img src="/image/logo.png" width="80" height="46" alt="">
+                    </nav>
+                    <h1>Цифровой образовательный контент</h1>
+                    <div class="login">
+                        <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                    </div>
+                    <div class="menu">
+                        <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                            onclick="openNav()">☰</span>
+                        <div id="mySidenav" class="sidenav">
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                            <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                            <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                            <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+                </div>
+                <!-- Модальное окно -->
+                <div id="openModalr" class="modalr">
+                    <!-- Кнопка для закрытия модального окна -->
+                    <span onclick="document.getElementById('openModalr').style.display='none'" class="close"
+                        title="Close Modal">&times;</span>
+                    <!-- Содержимое модального окна -->
+                    <form class="modalr-content">
+                        <div class="imgcontainer">
+                            <img src="../image/logo.png" alt="Logo" class="logo">
+                        </div>
+                        <div class="conta">
+                            <div class="contname">
+                                <!-- Поле ввода логина -->
+                                <label for="uname"><b>Логин</b></label>
+                                <input type="text" placeholder="Введите Логин" name="uname" required>
+                            </div>
+                            <!-- Поле ввода пароля -->
+                            <div class="password">
+                                <label for="psw"><b>Пароль</b></label>
+                                <input type="password" id="password-input" placeholder="Введите пароль" required
+                                    name="password">
+                                <a href="#" class="password-control"
+                                    onclick="return show_hide_password(this);"></a>
+                            </div>
+                            <!-- Кнопка для отправки формы -->
+                            <button type="submit">Вход</button>
+                            <!-- Флажок  -->
+                            <label>
+                                <input type="checkbox" checked="checked" name="remember"> Запомнить пароль
+                            </label>
+                            <div class="contain" style="background-color:#f1f1f1">
+                                <!-- Ссылка на восстановление пароля -->
+                                <span class="psw">Восстановить <a href="#">пароль?</a></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Группа</th>
+                    <th>Количество правильных ответов</th>
+                    <th>Количество неправильных ответов</th>
+                    <th>Оценка</th>
+                    <th>Время выполнения</th>
+                    <th>Тест</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in coksT)
+                {
+                    <tr>
+                        <td>@Model.Users.FirstOrDefault(q=>q.Id == item.IdUser).Firstname @Model.Users.FirstOrDefault(q=>q.Id == item.IdUser).Surename</td>
+                        <td>
+                            @if (ViewBag.ror == "Role: Преподаватель")
+                            {
+                                <text>Преподаватель</text>
+                            }
+                            else
+                            {
+                                @Model.Groups.FirstOrDefault(q=>q.Id == Model.Users.FirstOrDefault(q=>q.Id == item.IdUser).Id).Name
+                            }
+                        </td>
+                        <td>@item.QuantityCorrectAnswer</td>
+                        <td>@item.QuantityUnCorrectAnswer</td>
+                        <td>@item.Estimation</td>
+                        <td>@(item.TimePeform.HasValue ? item.TimePeform.Value.ToString("hh\\:mm") : "")</td>
+                        <td>@Model.Eoms.FirstOrDefault(q=>q.Id == item.Eom).Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+            
+        </div>
+       
+    </div>
+
+
+    <footer class="footer">
+        <div class="pagination_loader" style="position:fixed; bottom:65px; right:10px">
+        </div>
+        <div id="up">&#10148;</div>
+    </footer>
+    <div class="preloader"><img src="/image\ob\ajax-loader.gif"></div>
+    <script>
+        var upElem = document.getElementById('up');
+        var pageYLabel = 0;
+        var timeDuration;
+
+        upElem.onclick = function () {
+            var pageY = window.pageYOffset || document.documentElement.scrollTop;
+            switch (this.className) {
+                case 'up':
+                    pageYLabel = pageY;
+                    smoothScrolling();
+                    this.className = '';
+                    break;
+
+                case '':
+                    window.scrollTo(0, pageYLabel);
+                    this.className = 'up';
+            }
+        };
+
+        window.onscroll = function () {
+            var pageY = window.pageYOffset || document.documentElement.scrollTop;
+            var innerHeight = document.documentElement.clientHeight;
+
+            switch (upElem.className) {
+                case '':
+                    rowLength = $('.test_row').length;
+                    if (rowLength > $('.student_elem.active').length) {
+                        rowLength = $('.student_elem.active').length;
+                    }
+                    if (pageY > innerHeight) {
+                        upElem.className = 'up';
+                        if ($('.test_row').length != 0) {
+                            $('.pagination_loader').html(rowLength + ' из ' + $('.student_elem.active').length)
+                            $('.pagination_loader').show();
+                        }
+                    }
+                    break;
+
+                case 'up':
+                    if (pageY < innerHeight) {
+                        upElem.className = '';
+                        $('.pagination_loader').hide();
+                    }
+                    break;
+            }
+        };
+
+    </script>
+</body>
+
+</html>

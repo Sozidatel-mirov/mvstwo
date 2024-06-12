@@ -1,4 +1,4 @@
-﻿@model IEnumerable<mvstwo.Models.User>
+﻿@model IEnumerable<mvstwo.Model.User>
 
 <h2>Список пользователей</h2>
 <p><a asp-action="Create">Добавить пользователя</a></p>
@@ -7,8 +7,8 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@item.Name</td>
-            <td>@item.Sname</td>
+            @* <td>@item.Name</td>
+            <td>@item.Sname</td> *@
             <td>
                 <a asp-action="Edit" asp-controller="Home" asp-route-id="@item.Id">Изменить</a>
             </td>

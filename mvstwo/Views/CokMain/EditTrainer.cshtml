@@ -1,0 +1,323 @@
+﻿@model mvstwo.Model.OkeiSiteContext;
+@{
+    // Получаем HttpContext из контекста представления
+    var httpContext = Context.Request.HttpContext;
+    // Получаем значение параметра IdCok из строки запроса
+    int idContent = Convert.ToInt32(httpContext.Request.Query["IdCok"]);
+    int idTestBlock = Model.TestBlocks.FirstOrDefault(q => q.VirtualTrainer == idContent).Id;
+    int idTest = Model.Tests.FirstOrDefault
+    (q => q.Id == Model.TestBlocks.FirstOrDefault(q => q.VirtualTrainer == idContent).Test).Id;
+    mvstwo.Model.VirtualTrainer virtualTrainer = Model.VirtualTrainers.FirstOrDefault(q=>q.Id == idContent);
+    mvstwo.Model.Eom eom = Model.Eoms.FirstOrDefault(q=>q.Id == virtualTrainer.Eom);
+}
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+            </div>
+        </div>
+                
+    </header>
+</div>
+<h2>Создание темы для цифрового образовательного контента</h2>
+<p>
+    <label>Задание</label><br />
+    <input type="text" asp-for="@virtualTrainer.DescriptionCase" style="width: 50%;" />
+</p>
+<p hidden>
+    <label>Тема</label><br />
+    <input type="text" asp-for="@virtualTrainer.Eom" style="width: 50%;" />
+</p>
+<p hidden>
+    <label>Тема</label><br />
+    <input type="text" asp-for="@virtualTrainer.Id" style="width: 50%;" />
+</p>
+@{
+    int i = 1;
+}
+<br />
+@if (@Model.Quests.FirstOrDefault(q => q.Test == idTest) != null)
+{
+    <form id="editForm1-354" asp-action="editTrainer" asp-controller="CokMain" method="post">
+        <p>
+            <label>Текст вопроса</label><br />
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).TextQuest" style="width: 50%;" />
+        </p>
+        <p hidden>
+            <label>Тест id</label><br />
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Id" style="width: 50%;" />
+        </p>
+        <p hidden>
+            <label>Теcn num</label><br />
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault(q=>q.Test == idTest).Test" style="width: 50%;" />
+        </p>
+
+        <p hidden>
+            <input type="submit" value="Сохранить" />
+        </p>
+
+    </form>
+    @foreach (mvstwo.Model.Answer answer in Model.Answers.Where(q => q.Quest == @Model.Quests.FirstOrDefault(q => q.Test == idTest).Id))
+    {
+        <form id="editForm1-@answer.Id" asp-action="edit2Trainer" asp-controller="CokMain" method="post">
+            <p>
+                <label>Ответ @i</label><br />
+                <input type="text" asp-for="@answer.TextAnswers" style="width: 50%;" />
+            </p>
+            <p hidden>
+                <label>Ответ 1</label><br />
+                <input type="text" asp-for="@answer.Id" style="width: 50%;" />
+            </p>
+            <p hidden>
+                <label>Ответ 1</label><br />
+                <input type="text" asp-for="@answer.Quest" style="width: 50%;" />
+            </p>
+            <p hidden>
+                <label>Ответ 1</label><br />
+                <input type="text" asp-for="@answer.IsCorrect" style="width: 50%;" />
+            </p>
+            @{
+                i++;
+            }
+            <p hidden>
+                <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+
+    }
+
+    <br />
+    <br />
+
+}
+else if (Model.TestAccordBlocks.Where(q => q.Test == idTest) != null)
+{
+    @foreach (mvstwo.Model.TestAccordBlock testAccord in Model.TestAccordBlocks.Where(q => q.Test == idTest))
+    {
+        <form id="editAccordForm-@testAccord.Id" asp-action="editAccordTrainer" asp-controller="CokMain" method="post">
+            <label>Пара предложений - @i</label>
+            <br />
+        <p hidden>
+            <label>Текст вопроса</label><br />
+            <input type="text" asp-for="@testAccord.Id" style="width: 50%;" />
+        </p>
+            <p hidden>
+                <label>Текст вопроса</label><br />
+                <input type="text" asp-for="@testAccord.Test" style="width: 50%;" />
+            </p>
+        <p>
+            <label>Предложение 1</label><br />
+            <input type="text" asp-for="@testAccord.FirstPhrase" style="width: 50%;" />
+        </p>
+        <p>
+            <label>Предложение 2</label><br />
+            <input type="text" asp-for="@testAccord.SecondPhrase" style="width: 50%;" />
+        </p>
+        
+        @{
+            i++;
+        }
+            <p hidden>
+                <input type="submit" value="Сохранить" />
+            </p>
+            <br />
+        </form>
+    }
+}
+else
+{
+
+}
+@foreach (mvstwo.Model.TestSequenceBlock testSequence in Model.TestSequenceBlocks.Where(q => q.Test == idTest))
+{
+    <form id="editSequenceForm-@testSequence.Id" asp-action="editSequence" asp-controller="CokMain" method="post">
+    <p hidden>
+        <label>Текст вопроса</label><br />
+        <input type="text" asp-for="@testSequence.Id" style="width: 50%;" />
+    </p>
+            <p hidden>
+                <label>Текст вопроса</label><br />
+                <input type="text" asp-for="@testSequence.Test" style="width: 50%;" />
+            </p>
+    <p>
+        <label>Предложение</label><br />
+        <input type="text" asp-for="@testSequence.Phrase" style="width: 50%;" />
+    </p>
+    <p>
+        <label>Номер в последовательности</label><br />
+        <input type="text" asp-for="@testSequence.Number" style="width: 50%;" />
+    </p>
+    <br />
+        <p hidden>
+            <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+}
+    <form asp-action="editTrainerPage" asp-controller="CokMain" method="get">
+        <input type="number" name="IdCok" value="@Model.Contents.FirstOrDefault(q=>q.IdEom2==eom.Id).IdCoks" readonly hidden>
+        <p>
+            <input id="guram" type="submit" value="Сохранить" />
+        </p>
+    </form>
+</body>
+<script>
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editSequenceForm-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
+
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
+
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
+                    }
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
+        });
+    });
+</script>
+<script>
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editAccordForm-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
+
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
+
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
+                    }
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
+        });
+    });
+</script>
+<script>
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editForm1-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
+
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
+
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
+                    }
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
+        });
+    });
+</script>
+<script>
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[editForm]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
+
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
+
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
+                    }
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
+        });
+    });
+</script>

@@ -1,4 +1,8 @@
-﻿@model mvstwo.Model.Cok; 
+﻿@using mvstwo.Model;
+@model OkeiSiteContext; 
+@{
+    
+}
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,38 +13,68 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+<div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+                </div>
+            </div>
 
+    </header>
+</div>
 <h2>Создание темы для цифрового образовательного контента</h2>
 <form method="post">
     <p>
-        <label asp-for="Theme">Тема</label><br />
-        <input type="text" asp-for="Theme" style="width: 50%;" />
+        <label>Тема</label><br />
+        <input type="text" asp-for="@Model.Coks.FirstOrDefault().Theme" style="width: 50%;" value="" />
     </p>
     <p>
-        <label asp-for="Spo">СПО</label><br />
-        <input type="text" asp-for="Spo" style="width: 50%;" />
-    </p>
-@*     <p>
-        <label asp-for="Eom1">ЭОМ1</label><br />
-        <input type="text" asp-for="Eom1" style="width: 50%;" />
+        <label>СПО</label><br />
+        <input type="text" asp-for="@Model.Coks.FirstOrDefault().Spo" style="width: 50%;" value="" />
     </p>
     <p>
-        <label asp-for="Eom2">ЭОМ2</label><br />
-        <input type="text" asp-for="Eom2" style="width: 50%;" />
+        <label>МДК</label><br />
+        <input type="text" asp-for="@Model.Coks.FirstOrDefault().Mdk" style="width: 50%;" value="" />
     </p>
     <p>
-        <label asp-for="Eom2">ЭОМ3</label><br />
-        <input type="text" asp-for="Eom3" style="width: 50%;" />
-    </p> *@
-    <p>
-        <label asp-for="Mdk">МДК</label><br />
-        <input type="text" asp-for="Mdk" style="width: 50%;" />
+        <label>Проф. модуль</label><br />
+        <input type="text" asp-for="@Model.Coks.FirstOrDefault().Pm" style="width: 50%;" value="" />
     </p>
-    <p>
-        <label asp-for="Pm">Проф. модуль</label><br />
-        <input type="text" asp-for="Pm" style="width: 50%;" />
+    <p hidden>
+        <label>Проф. модуль</label><br />
+        <input type="text" asp-for="@Model.Coks.FirstOrDefault().IdTeacher" style="width: 50%;" value="1" />
     </p>
 
+    <p>
+        <label>ЕОМ1</label><br />
+        <input type="text" name="EomNames[0]" style="width: 50%;" value="" />
+    </p>
+    <p>
+        <label>ЕОМ2</label><br />
+        <input type="text" name="EomNames[1]" style="width: 50%;" value="" />
+    </p>
+    <p>
+        <label>ЕОМ3</label><br />
+        <input type="text" name="EomNames[2]" style="width: 50%;" value="" />
+    </p>
+    
     <p>
         <input type="submit" value="Сохранить" />
     </p>

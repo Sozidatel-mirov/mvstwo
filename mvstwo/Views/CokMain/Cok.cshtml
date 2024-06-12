@@ -125,8 +125,14 @@
                           </a> 
                         </div>
                         </form>
+                        <form id="fooForm2" asp-controller="Cokmain" asp-action="Trainer" method="get">
                         <div class="eurhgierug">
-                          <a href="place2.html">
+                                <input type="number" name="IdCok" value="@a" readonly hidden>
+                                <input type="number" name="nowquiz" value="0" readonly hidden>
+                                <input type="number" name="score" value="0" readonly hidden>
+                                <input type="number" name="timeMinute" value="00" readonly hidden>
+                                <input type="number" name="timeSecond" value="00" readonly hidden>
+                                <a href="place2.html" id="submit_link_trainer">
                             <img src="/image/2.png" width="744" height="110" alt="">
                           </a>
                           <img class="ghgwreg" width="70" height="52" src="/image/icon/2.png" alt="">
@@ -140,14 +146,15 @@
 
                           </a>
                         </div>
-                        <form id="fooForm" asp-controller="Cokmain" asp-action="quiz" method="get">
+                        </form>
+                        <form id="fooForm1" asp-controller="Cokmain" asp-action="Quiz" method="get">
                         <div class="eurhgierug">
                             <input type="number" name="IdCok" value="@a" readonly hidden>
                                 <input type="number" name="nowquiz" value="0" readonly hidden>
                                 <input type="number" name="score" value="0" readonly hidden>
                 <input type="number" name="timeMinute" value="00" readonly hidden>
                 <input type="number" name="timeSecond" value="00" readonly hidden>
-                                <a href="#" id="submit_link">
+                                <a href="#" id="submit_link_quiz">
                             <img src="/image/3.png" width="744" height="110" alt="">
                                     </a>
                           <img class="ghgwreg" width="70" height="52" src="/image/icon/3.png" alt="">
@@ -168,6 +175,22 @@
 
                                 // отправляем форму
                                 document.getElementById('fooForm').submit();
+                            });
+                        </script>
+                        <script>
+                            document.getElementById('submit_link_quiz').addEventListener('click', function (event) {
+                                event.preventDefault(); // предотвращаем действие по умолчанию, чтобы страница не перезагружалась
+
+                                // отправляем форму
+                                document.getElementById('fooForm1').submit();
+                            });
+                        </script>
+                        <script>
+                            document.getElementById('submit_link_trainer').addEventListener('click', function (event) {
+                                event.preventDefault(); // предотвращаем действие по умолчанию, чтобы страница не перезагружалась
+
+                                // отправляем форму
+                                document.getElementById('fooForm2').submit();
                             });
                         </script>
                     </div>

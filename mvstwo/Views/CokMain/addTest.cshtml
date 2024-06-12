@@ -1,0 +1,317 @@
+﻿@model mvstwo.Model.OkeiSiteContext;
+@{
+    // Получаем HttpContext из контекста представления
+    var httpContext = Context.Request.HttpContext;
+    // Получаем значение параметра IdCok из строки запроса
+    int IdEom = Convert.ToInt32(httpContext.Request.Query["IdEom"]);
+    string type = ViewBag.type;
+
+}
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <header class="header">
+            <div class="container">
+                <div class="inner2">
+                    <nav>
+                        <img src="/image/logo.png" width="80" height="46" alt="">
+                    </nav>
+                    <h1>Цифровой образовательный контент</h1>
+                    <div class="login">
+                        <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                    </div>
+                    <div class="menu">
+                        <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                              onclick="openNav()">☰</span>
+                        <div id="mySidenav" class="sidenav">
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                            <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                            <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                            <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                        </div>
+                        <script type="text/javascript" src="/app.js">   </script>
+                    </div>
+                </div>
+
+        </header>
+    </div>
+<h2>Добавление теста для цифрового образовательного контента</h2>
+    <br />
+    <br />
+    @if (type == "quiz")
+    {
+        <form asp-controller="Cokmain" asp-action="addTest" method="post">
+            <input type="number" name="IdEom" value="@IdEom" readonly hidden>
+            <p>
+                <label>Описание теста</label>
+                <input type="text" asp-for="@Model.VirtualTrainers.FirstOrDefault().DescriptionCase" style="width: 50%;" value="" />
+            </p>
+            <p hidden>
+                <label>EOM</label>
+                <input type="text" asp-for="@Model.VirtualTrainers.FirstOrDefault().Eom" style="width: 50%;" value="@IdEom" />
+            </p>
+        <p>
+            <label>Вопрос</label>
+            <input type="text" asp-for="@Model.Quests.FirstOrDefault().TextQuest" style="width: 50%;" value="" />
+        </p>
+        <p>
+            <label>Ответ 1</label>
+            <input type="text" name="Answers[0]" style="width: 50%;" value="" /> <br>
+            <label>Ответ 2</label>
+            <input type="text" name="Answers[1]" style="width: 50%;" value="" /><br>
+            <label>Ответ 3</label>
+            <input type="text" name="Answers[2]" style="width: 50%;" value="" /><br>
+            <label>Ответ 4</label>
+            <input type="text" name="Answers[3]" style="width: 50%;" value="" /><br>
+        </p>
+            <p>
+                <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+    }
+    else if (type == "sequens")
+    {
+        <form asp-controller="Cokmain" asp-action="addSequensTest" method="post">
+            <input type="number" name="IdEom" value="@IdEom" readonly hidden>
+            <p>
+                <label>Описание теста</label>
+                <input type="text" asp-for="@Model.VirtualTrainers.FirstOrDefault().DescriptionCase" style="width: 50%;" value="" />
+            </p>
+            <p hidden>
+                <label>EOM</label>
+                <input type="text" asp-for="@Model.VirtualTrainers.FirstOrDefault().Eom" style="width: 50%;" value="@IdEom" />
+            </p>
+            <br>
+            <p>
+                <label>Предложение</label><br />
+                <input type="text" name="sequenceBlocks[0]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Номер в последовательности</label><br />
+                <input type="text" name="numbers[0]" style="width: 50%;" value="" />
+            </p>
+            <br>
+            <p>
+                <label>Предложение</label><br />
+                <input type="text" name="sequenceBlocks[1]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Номер в последовательности</label><br />
+                <input type="text" name="numbers[1]" style="width: 50%;" value="" />
+            </p>
+            <br>
+            <p>
+                <label>Предложение</label><br />
+                <input type="text" name="sequenceBlocks[2]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Номер в последовательности</label><br />
+                <input type="text" name="numbers[2]" style="width: 50%;" value="" />
+            </p>
+            <br>
+            <p>
+                <label>Предложение</label><br />
+                <input type="text" name="sequenceBlocks[3]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Номер в последовательности</label><br />
+                <input type="text" name="numbers[3]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+    }
+    else
+    {
+        <form asp-controller="Cokmain" asp-action="addAccordTest" method="post">
+            <input type="number" name="IdEom" value="@IdEom" readonly hidden>
+            <p>
+                <label>Описание теста</label>
+                <input type="text" asp-for="@Model.VirtualTrainers.FirstOrDefault().DescriptionCase" style="width: 50%;" value="" />
+            </p>
+            <p hidden>
+                <label>EOM</label>
+                <input type="text" asp-for="@Model.VirtualTrainers.FirstOrDefault().Eom" style="width: 50%;" value="@IdEom" />
+            </p>
+            <br>
+            <label>Пара предложений - 1</label>
+            <br><br>
+            <p>
+                <label>Предложение 1</label><br />
+                <input type="text" name="firstPhrases[0]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Предложение 2</label><br />
+                <input type="text" name="secondPhrases[0]" style="width: 50%;" value="" />
+            </p>
+
+            <br>
+            <label>Пара предложений - 2</label>
+            <br><br>
+            <p>
+                <label>Предложение 1</label><br />
+                <input type="text" name="firstPhrases[1]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Предложение 2</label><br />
+                <input type="text" name="secondPhrases[1]" style="width: 50%;" value="" />
+            </p>
+
+            <br>
+            <label>Пара предложений - 3</label>
+            <br><br>
+            <p>
+                <label>Предложение 1</label><br />
+                <input type="text" name="firstPhrases[2]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Предложение 2</label><br />
+                <input type="text" name="secondPhrases[2]" style="width: 50%;" value="" />
+            </p>
+
+            <br>
+            <label>Пара предложений - 4</label>
+            <br><br>
+            <p>
+                <label>Предложение 1</label><br />
+                <input type="text" name="firstPhrases[3]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <label>Предложение 2</label><br />
+                <input type="text" name="secondPhrases[3]" style="width: 50%;" value="" />
+            </p>
+            <p>
+                <input type="submit" value="Сохранить" />
+            </p>
+        </form>
+    }
+        
+</body>
+ <script>
+    document.getElementById('editForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/Edit', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+</script>
+<script>
+    document.getElementById('editCok').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editCok', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+
+</script>
+<script>
+    document.querySelectorAll('[id^="editForm1-"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            var formData = new FormData(this); // Получаем данные формы
+
+            fetch(this.action, { // Используем URL действия формы
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сервера: ' + response.status);
+                    }
+                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+                })
+                .catch(error => {
+                    console.error('Ошибка отправки формы:', error);
+                    // Обработка ошибки (если нужно)
+                });
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('[id^="editAccordForm-"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            var formData = new FormData(this); // Получаем данные формы
+
+            fetch(this.action, { // Используем URL действия формы
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сервера: ' + response.status);
+                    }
+                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+                })
+                .catch(error => {
+                    console.error('Ошибка отправки формы:', error);
+                    // Обработка ошибки (если нужно)
+                });
+        });
+    });
+</script>
+<script>
+    document.querySelectorAll('[id^="editSequenceForm-"]').forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+            var formData = new FormData(this); // Получаем данные формы
+
+            fetch(this.action, { // Используем URL действия формы
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Ошибка сервера: ' + response.status);
+                    }
+                    // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+                })
+                .catch(error => {
+                    console.error('Ошибка отправки формы:', error);
+                    // Обработка ошибки (если нужно)
+                });
+        });
+    });
+</script>

@@ -1,4 +1,7 @@
 @model mvstwo.Model.OkeiSiteContext; 
+@{
+    var users = Model.Users.ToList();
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +34,17 @@
                         <div id="mySidenav" class="sidenav">
                             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                             <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                            @if(Convert.ToString(ViewBag.role) == "Преподаватель")
+                            {
                             <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                            }
+                            else@*  if(Convert.ToString(ViewBag.role) == "Администратор") *@
+                            {
+                            }
+                            @* else
+                            {
+                            <a asp-controller="CokMain" asp-action="ProfileStudent">@Convert.ToString(ViewBag.role)</a>
+                            } *@
                             <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
                         </div>
                     </div>
@@ -76,15 +89,55 @@
                 </div>
             </div>
         </header>
-        <div style="display: flex; flex-direction: column;">
+        @if(Convert.ToString(ViewBag.role) == "Администратор")
+        {
+            <a asp-controller="CokMain" asp-action="AddUser">
+            <button class="button" type="submit" >
+                Добавить пользователя
+            </button>
+            </a>
+            <br /><br />
+            <label>Список пользователей</label>
+            <br /><br />
+            <table>
+            <thead>
+                <tr>
+                    <th>Имя пользователя</th>
+                    <th>Фамилия пользователя</th>
+                    <th>роль</th>
+                    <th>Группа</th>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in users)
+                {
+                    <tr>
+                        <td>@Model.Users.FirstOrDefault(q=>q.Id == item.Id).Firstname</td>
+                        <td>
+                            @Model.Users.FirstOrDefault(q=>q.Id == item.Id).Surename
+                        </td>
+                        <td>@Model.Roles.FirstOrDefault(q=>q.Id == Model.Users.FirstOrDefault(q=>q.Id == item.Id).RoleUser).Name</td>
+                        <td>@Model.Groups.FirstOrDefault(q=>q.Id == Model.Users.FirstOrDefault(q=>q.Id == item.Id).Usergroup).Name</td>
+                        <td>@Model.Users.FirstOrDefault(q=>q.Id == item.Id).Login</td>
+                        <td>@Model.Users.FirstOrDefault(q=>q.Id == item.Id).Password</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        }
+        else
+        { 
+            <div style="display: flex; flex-direction: column;">
             @foreach(mvstwo.Model.Cok cok in Model.Coks)
             {
                 if(ViewBag.ror == "4пк2")
                 {
-                    if(cok.Id > 14)
+                    @* if(cok.Id > 14)
                     {
                         continue;
-                    }
+                    } *@
                     <form asp-controller="Cokmain" asp-action="Cok" method="post">
                         <div>
                             <div class="content1">
@@ -128,8 +181,6 @@
                                             <div style="font-size: 16px; color: #2e42c5; margin: 10px 0px;">Преподаватели:</div>
                                             <div id="modal-body" style="font-size: 16px;"></div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -198,11 +249,11 @@
                 }
                 
             }
-            
+        
         </div>
        
-    </div>
-
+    
+     } 
 
     <footer class="footer">
         <div class="pagination_loader" style="position:fixed; bottom:65px; right:10px">

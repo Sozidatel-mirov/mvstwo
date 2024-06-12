@@ -251,7 +251,7 @@ public partial class OkeiSiteContext : DbContext
 
             entity.HasOne(d => d.IdLectionNavigation).WithMany(p => p.LectionBlocks)
                 .HasForeignKey(d => d.IdLection)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__LectionBl__idLec__5441852A");
 
             entity.HasOne(d => d.ImageNavigation).WithMany(p => p.LectionBlocks)
@@ -279,9 +279,9 @@ public partial class OkeiSiteContext : DbContext
                 .HasConstraintName("FK__Quest__Image__68487DD7");
 
             entity.HasOne(d => d.TestNavigation).WithMany(p => p.Quests)
-                .HasForeignKey(d => d.Test)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Quest__Test__693CA210");
+        .HasForeignKey(d => d.Test)
+        .OnDelete(DeleteBehavior.Cascade)  // Изменено с ClientSetNull на Cascade
+        .HasConstraintName("FK__Quest__Test__693CA210");
         });
 
         modelBuilder.Entity<ResultsTest>(entity =>
@@ -344,9 +344,9 @@ public partial class OkeiSiteContext : DbContext
                 .HasConstraintName("FK__TestAccor__Secon__70DDC3D8");
 
             entity.HasOne(d => d.TestNavigation).WithMany(p => p.TestAccordBlocks)
-                .HasForeignKey(d => d.Test)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TestAccord__Test__71D1E811");
+        .HasForeignKey(d => d.Test)
+        .OnDelete(DeleteBehavior.Cascade)  // Изменено с ClientSetNull на Cascade
+        .HasConstraintName("FK__TestAccord__Test__71D1E811");
         });
 
         modelBuilder.Entity<TestBlock>(entity =>
@@ -393,9 +393,9 @@ public partial class OkeiSiteContext : DbContext
                 .HasConstraintName("FK__TestSeque__Image__74AE54BC");
 
             entity.HasOne(d => d.TestNavigation).WithMany(p => p.TestSequenceBlocks)
-                .HasForeignKey(d => d.Test)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TestSequen__Test__75A278F5");
+        .HasForeignKey(d => d.Test)
+        .OnDelete(DeleteBehavior.Cascade)  // Изменено с ClientSetNull на Cascade
+        .HasConstraintName("FK__TestSequen__Test__75A278F5");
         });
 
         modelBuilder.Entity<Trainerlection>(entity =>
@@ -479,6 +479,7 @@ public partial class OkeiSiteContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
+
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

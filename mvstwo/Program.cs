@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using mvstwo.Models;
 using mvstwo.Model; // пространство имен класса ApplicationContext
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using mvstwo.FileUploadService;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -23,6 +23,9 @@ builder.Services.AddAuthorization(opts => {
     opts.AddPolicy("Group", policy => {
         policy.RequireClaim("Group", "1");
     });
+	opts.AddPolicy("Id", policy => {
+		policy.RequireClaim("Id", "1");
+	});
 });
 
 // получаем строку подключения из файла конфигурации
@@ -32,6 +35,8 @@ string connection = builder.Configuration.GetConnectionString("DefaultConnection
 builder.Services.AddDbContext<OkeiSiteContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IFileUploadService, LocalFileUploadService>();
 
 var app = builder.Build();
 app.UseStaticFiles();

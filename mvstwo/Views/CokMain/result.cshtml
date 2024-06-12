@@ -22,7 +22,19 @@
 		
 	</head>
 	<body style="background-color: rgb(230,233,237);">
-	<a asp-action="index" asp-controller="CokMain" class="back">На Главную</a>
+		<form id="fooForm123" asp-controller="Cokmain" asp-action="cok">
+		<input type="number" name="IdCok" value="@a" readonly hidden>
+		<a id="submit_link123" class="back">На Главную</a>
+	</form>
+	<script>
+		document.getElementById('submit_link123').addEventListener('click', function (event) {
+			event.preventDefault(); // предотвращаем действие по умолчанию, чтобы страница не перезагружалась
+
+			// отправляем форму
+			document.getElementById('fooForm123').submit();
+		});
+	</script>
+	
 	<div id="wrapper">
 		<div id="container" class="show-green">
 		<header role="banner" class="header" style="display: none;">
@@ -90,9 +102,33 @@
 			<button id="js-printReport" class="btn-print btn-report" onclick="print();">Печать Отчета</button>
 		</div>
 		<div class="item-result_desc">
-			<a href="../eom3.html"  class="btn-retry" data-retry-module="">Повторить</a>
-			
-		
+			<form id="fooForm1" asp-controller="Cokmain" asp-action="QuizReturn" method="post">
+								
+								<input type="number" name="IdCok" value="@a" readonly hidden>
+								<input type="number" name="nowquiz" value="0" readonly hidden>
+								<input type="number" name="score" value="0" readonly hidden>
+								<input type="number" name="timeMinute" value="00" readonly hidden>
+								<input type="number" name="timeSecond" value="00" readonly hidden>
+								<input type="submit" value="Повторить" class="btn-retry" data-retry-module="">
+
+								<input type="number" name="scoreO" id="scoreO" readonly hidden>
+								<input type="number" name="uscoreO" id="uscoreO" readonly hidden>
+								<input type="number" name="timeMinuteO" id="timeMinuteO" readonly hidden>
+								<input type="number" name="timeSecondO" id="timeSecondO" readonly hidden>
+								<input type="number" name="IdEom" id="IdEom" value="@eom" readonly hidden>
+								<input type="number" name="ballso" id="ballso" readonly hidden>
+			</form>
+							@* <a href="#" id="submitr" class="btn-retry" data-retry-module="">
+								Повторить
+							</a> *@
+            <script>
+                document.getElementById('submitr').addEventListener('click', function (event) {
+                    event.preventDefault(); // предотвращаем действие по умолчанию, чтобы страница не перезагружалась
+
+                    // отправляем форму
+                    document.getElementById('fooForm').submit();
+                });
+            </script>
            </div>
            
 		   
@@ -121,8 +157,15 @@
         document.getElementById('timer').textContent = timeMinute + ":" + timeSecond;
         document.getElementById('correctCount').textContent = score;
         document.getElementById('incorrectCount').textContent = @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() - score;
-			document.getElementById('balls').textContent = Math.round(score / @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() * 5);
-        
+		document.getElementById('balls').textContent = Math.round(score / @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() * 5);
+
+		document.getElementById('scoreO').value = score;
+		document.getElementById('uscoreO').value = @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() - score;
+		document.getElementById('timeMinuteO').value = timeMinute;
+		document.getElementById('timeSecondO').value = timeSecond;
+		document.getElementById('ballso').value = Math.round(score / @Model.VirtualTrainers.Where(q => q.Eom == eom).Count() * 5);
+
+			
     </script>
 </body>
 </html>

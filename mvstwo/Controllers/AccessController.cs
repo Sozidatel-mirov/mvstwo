@@ -36,8 +36,10 @@ namespace mvstwo.Controllers
                     new Claim(ClaimTypes.NameIdentifier, user.Login),
                     new Claim("Role", role.Name),
                     new Claim("IO", user.Surename + " " + user.Firstname),
-                    new Claim("Group", group.Name)
-                };
+                    new Claim("Group", group.Name),
+					new Claim("Id", group.Id.ToString()),
+
+				};
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
                     CookieAuthenticationDefaults.AuthenticationScheme);
                 AuthenticationProperties properties = new AuthenticationProperties()

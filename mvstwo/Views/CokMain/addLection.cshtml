@@ -1,0 +1,119 @@
+﻿@model mvstwo.Model.OkeiSiteContext;
+@{
+    // Получаем HttpContext из контекста представления
+    var httpContext = Context.Request.HttpContext;
+    // Получаем значение параметра IdCok из строки запроса
+    int IdEom = Convert.ToInt32(httpContext.Request.Query["IdEom"]);
+    string type = ViewBag.type;
+}
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <script>
+        let blockCount = 1;
+
+        function addBlock() {
+            // Найдем шаблонный блок для клонирования
+            const templateBlock = document.getElementById('templateBlock');
+
+            // Клонируем шаблонный блок
+            const newBlock = templateBlock.cloneNode(true);
+
+            // Увеличиваем счетчик блоков
+            blockCount++;
+
+            // Изменим id и name атрибуты в новом блоке
+            newBlock.id = `block${blockCount}`;
+            newBlock.querySelector('label[for="abzac"]').innerText = `Абзац ${blockCount}:`;
+            newBlock.querySelector('input[name^="abzac"]').name = `abzac[${blockCount - 1}]`;
+            
+
+            // Добавим новый блок в конец формы
+            document.getElementById('blocksContainer').appendChild(newBlock);
+        }
+
+        function loadFile(event, blockId) {
+            const fileInput = event.target;
+            const fileNameInput = document.getElementById(`fileNameAbzac${blockId}`);
+            const file = fileInput.files[0];
+            if (file) {
+                fileNameInput.value = file.name;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="main">
+        <header class="header">
+            <div class="container">
+                <div class="inner2">
+                    <nav>
+                        <img src="/image/logo.png" width="80" height="46" alt="">
+                    </nav>
+                    <h1>Цифровой образовательный контент</h1>
+                    <div class="login">
+                        <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                    </div>
+                    <div class="menu">
+                        <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                              onclick="openNav()">☰</span>
+                        <div id="mySidenav" class="sidenav">
+                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                            <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                            <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                            <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                        </div>
+                        <script type="text/javascript" src="/app.js">   </script>
+                    </div>
+                </div>
+
+        </header>
+    </div>
+    <h2>Добавление лекции для цифрового образовательного контента</h2>
+    <br />
+    <br />
+
+    <form asp-controller="Cokmain" asp-action="addLection" method="post" enctype="multipart/form-data">
+        <input type="number" name="IdEom" value="@IdEom" readonly hidden>
+        <p>
+            <label>Наименование</label>
+            <input type="text" asp-for="Lections.FirstOrDefault().Title" style="width: 50%;" value="" />
+        </p>
+        <p hidden>
+            <label>Наименование</label>
+            <input type="text" asp-for="Lections.FirstOrDefault().Eom" style="width: 50%;" value="@IdEom" />
+        </p>
+        <!-- Поле для выбора файла -->
+        <input type="file" id="photoInput0" name="photoa" accept="image/*" onchange="loadFile(event, 0)">
+        <input hidden type="text" id="fileNameAbzac0" name="fileName" readonly style="width: 50%;" />
+
+        <p hidden>
+            <label>Иконка</label>
+            <input type="text" id="iconInput" name="icon" asp-for="Lections.FirstOrDefault().Icon" style="width: 50%;" value="" readonly />
+        </p>
+        <label>Текст лекции</label>
+        <div id="blocksContainer">
+            <div id="templateBlock">
+                
+                <p>
+                    <label for="abzac">абзац 1:</label>
+                    <input type="text" name="abzac[0]" style="width: 50%;" value="" />
+                </p>
+            </div>
+        </div>
+
+        <button type="button" onclick="addBlock()">Добавить блок</button>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </form>
+
+</body>

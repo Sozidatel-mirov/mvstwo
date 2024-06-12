@@ -9,29 +9,59 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
+<div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+                </div>
+            </div>
 
+    </header>
+</div>
 <h2>Добавить пользователя</h2>
 <form method="post">
     <p>
         <label>Имя</label><br />
-        <input type="text" asp-for="Firstname" style="width: 50%;" />
+        <input type="text" name="Firstname" style="width: 50%;" />
     </p>
     <p>
         <label>Фамилия</label><br />
-        <input type="text" asp-for="Surename" style="width: 50%;" />
+        <input type="text" name="Surename" style="width: 50%;" />
     </p>
     <p>
         <label>Логин</label><br />
-        <input type="text" asp-for="Login" style="width: 50%;" />
+        <input type="text" name="Login" style="width: 50%;" />
     </p>
     <p>
         <label>Пароль</label><br />
-        <input type="text" asp-for="Password" style="width: 50%;" />
+        <input type="text" name="Password" style="width: 50%;" />
     </p>
-    <p>
-        <label>Роль на сайте (1 - студент, 2 - преподаватель, 3 - администратор)</label><br />
-        <input type="number" asp-for="RoleUser" style="width: 50%;" />
-    </p>
+    <select id="role" name="test">
+        <option name="admin" value="admin">Администратор</option>
+        <option name="teacher" value="teacher">Преподаватель</option>
+        <option name="student" value="student">Студент</option>
+    </select>
+    <select id="group" name="gg">
+        <option name="4pk2" value="4pk2">4пк2</option>
+        <option name="3pk2" value="3pk2">3пк2</option>
+        <option name="2pk2" value="2pk2">2пк2</option>
+    </select>
     <p>
         <input type="submit" value="Сохранить" />
     </p>

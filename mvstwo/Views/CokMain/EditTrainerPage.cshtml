@@ -1,0 +1,205 @@
+﻿@model mvstwo.Model.OkeiSiteContext;
+@{
+    // Получаем HttpContext из контекста представления
+    var httpContext = Context.Request.HttpContext;
+    // Получаем значение параметра IdCok из строки запроса
+    string idCok = httpContext.Request.Query["IdCok"];
+    int idCoknow = Convert.ToInt32(idCok);
+    int idContent = Model.Contents.FirstOrDefault(q => q.IdCoks == idCoknow).Id;
+     
+    int idEom2 = Model.Eoms.FirstOrDefault(q=>q.Id == Model.Contents.FirstOrDefault(q=>q.Id == idContent).IdEom2).Id;
+    var cok = Model.Coks.FirstOrDefault(q => q.Id == Convert.ToInt32(idCok));
+    List<mvstwo.Model.VirtualTrainer> trainersV3 = Model.VirtualTrainers.Where(q => q.Eom == idEom2).ToList();
+    mvstwo.Model.Content content = Model.Contents.FirstOrDefault(q=>q.IdCoks == idCoknow);
+}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+            </div>
+        </div>
+                
+    </header>
+</div>
+<h2>Редактирование тренажёра для цифрового образовательного контента</h2>
+    <br />
+    <br />
+<form id="editEom2" asp-action="editEomTrainer" asp-controller="CokMain" method="post">
+    <p>
+        <label>ЕОМ 2</label><br />
+        <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom2).Name" style="width: 50%;" />
+    </p>
+    <p hidden>
+        <label>Ответ 1</label><br />
+        <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom2).Id" style="width: 50%;" />
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>
+
+<br />
+<br /><label>Тренажёры</label>
+<br />
+
+@foreach (mvstwo.Model.VirtualTrainer virtualT in trainersV3)
+{
+    <form asp-controller="Cokmain" asp-action="editTrainer" method="get">
+        <input type="number" name="IdCok" value="@virtualT.Id" readonly hidden>
+        <p>
+            <input type="text" asp-for="@virtualT.DescriptionCase" style="width: 50%;" />
+        </p>
+
+        <div class="flex_row" id="buttons_list_36762">
+            <button class="button"
+                    type="submit">
+                Изменить тренажёр
+            </button>
+        </div>
+    </form>
+    <form asp-controller="Cokmain" asp-action="DeleteTestTrainer" method="post">
+        <input type="number" name="IdVirtual" value="@virtualT.Id" readonly hidden>
+        <input type="number" name="IdCok" value="@idCoknow" readonly hidden>
+
+        <div class="flex_row" id="buttons_list_36762">
+            <button class="button"
+                    type="submit">
+                Удалить тренажёр
+            </button>
+        </div>
+    </form>
+}
+<br /><br />
+<form asp-controller="Cokmain" asp-action="addtestTrainer" method="get">
+
+    <input type="number" name="IdEom" value="@idEom2" readonly hidden>
+    <label>Выберите тест:</label>
+    <select id="test" name="test">
+        <option name="quiz" value="quiz">Обычный тест</option>
+        <option name="sequens" value="sequens">Тест на последовательность</option>
+        <option name="accord" value="accord">Тест на соотношение</option>
+    </select>
+
+    <div class="flex_row" id="buttons_list_36762">
+        <button class="button"
+                type="submit">
+            Добавить тренажёр
+        </button>
+    </div>
+</form>
+<script>
+    document.getElementById('editCok').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editCok', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+    </script>
+<script>
+    document.getElementById('editEom').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editEom', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+</script>
+<script>
+    document.getElementById('editEom1').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editEom', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+</script>
+<script>
+    document.getElementById('editEom2').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        var formData = new FormData(this); // Получаем данные формы
+
+        fetch('/CokMain/editEom', { // Замените на правильный URL вашего метода действия
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера: ' + response.status);
+                }
+                // Если ответ успешный, не делаем ничего, так как мы остаемся на текущей странице
+            })
+            .catch(error => {
+                console.error('Ошибка отправки формы:', error);
+                // Обработка ошибки (если нужно)
+            });
+    });
+</script>
+

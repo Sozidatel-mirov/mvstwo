@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using mvstwo.Models;
+using mvstwo.Model;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace mvstwo.Controllers
@@ -11,8 +11,8 @@ namespace mvstwo.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        ApplicationContext db;
-        public HomeController(ApplicationContext context)
+        OkeiSiteContext db;
+        public HomeController(OkeiSiteContext context)
         {
             db = context;
         }

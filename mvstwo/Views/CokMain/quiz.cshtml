@@ -19,22 +19,31 @@
     char[] sti = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'K' };
 }   
 
-@foreach (mvstwo.Model.VirtualTrainer virtualTrainer in Model.VirtualTrainers.Where(q => q.Eom == eom))
-			{}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site</title>
-    <link rel="stylesheet" href="../css/place.css">
+    <link rel="stylesheet" href="/css/place.css">
 
 </head>
 
 <body>
-    <a href="../index.html" class="back">На Главную</a>
+    <form id="fooForm" asp-controller="Cokmain" asp-action="cok" method="post">
+    <input type="number" name="IdCok" value="@a" readonly hidden>
+    <a  href="#" id="submit_link" class="back">На Главную</a>
+    </form>
+    <script>
+                            document.getElementById('submit_link').addEventListener('click', function (event) {
+                                event.preventDefault(); // предотвращаем действие по умолчанию, чтобы страница не перезагружалась
+
+                                // отправляем форму
+                                document.getElementById('fooForm').submit();
+                            });
+                        </script>
     @if (quest == null)
     {
         <text>
@@ -137,11 +146,7 @@
                             ['item1', 'itemA'],
                             ['item2', 'itemB'],
                             ['item3', 'itemC'],
-                            ['item4', 'itemD'],
-                            ['item5', 'itemE'],
-                            ['item6', 'itemF'],
-                            ['item7', 'itemG'],
-                            ['item8', 'itemK']
+                            ['item4', 'itemD']
                         ];
                        document.getElementById('nextButton').hidden = false;
 
@@ -369,7 +374,7 @@
                 <button class="place__btn" id="nextButton" hidden>Далее</button>
                 <input type="number" name="IdCok" value="@a" readonly hidden>
                 <input type="number" name="nowquiz" value="@nowPageTest" readonly hidden>
-                <input id="scorein" type="number" name="score" value="@ViewBag.score" readonly >
+                <input id="scorein" type="number" name="score" value="@ViewBag.score" hidden readonly >
                 <input id="minute" type="number" name="timeMinute" readonly hidden>
                 <input id="second" type="number" name="timeSecond" readonly hidden>
             </form>
@@ -380,7 +385,7 @@
                 <button class="place__btn" id="nextButton" hidden>Далее</button>
                 <input type="number" name="IdCok" value="@a" readonly hidden>
                 <input type="number" name="nowquiz" value="@nowPageTest" readonly hidden>
-                <input id="scorein" type="number" name="score" value="@ViewBag.score" readonly >
+                <input id="scorein" type="number" name="score" value="@ViewBag.score" hidden readonly >
                 <input id="minute" type="number" name="timeMinute" value="@ViewBag.minute" readonly hidden>
                     <input id="second" type="number" name="timeSecond" value="@ViewBag.second" readonly hidden>
             </form>
@@ -529,7 +534,7 @@
                 [@foreach(mvstwo.Model.Answer answer in Model.Answers.Where(q => q.Quest == quest.Id))
                 {
                 <text>
-                new Answer(@answer.TextAnswers, @if (@answer.IsCorrect == true)
+                new Answer("@Html.Raw(@answer.TextAnswers)", @if (@answer.IsCorrect == true)
                 {
                 <text>
                 1 </text>

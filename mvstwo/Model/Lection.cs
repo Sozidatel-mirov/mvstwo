@@ -9,7 +9,7 @@ public partial class Lection
 
     public string Title { get; set; } = null!;
 
-    public int Icon { get; set; }
+    public int? Icon { get; set; }
 
     public int Eom { get; set; }
 

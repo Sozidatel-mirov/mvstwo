@@ -6,12 +6,7 @@
     string idCok = httpContext.Request.Query["IdCok"];
     int idCoknow = Convert.ToInt32(idCok);
     int idContent = Model.Contents.FirstOrDefault(q => q.IdCoks == idCoknow).Id;
-    int v = Model.Quests.FirstOrDefault(q => q.Test == @Model.Tests.FirstOrDefault
-        (q => q.Id == @Model.TestBlocks.FirstOrDefault
-        (q => q.VirtualTrainer == @Model.VirtualTrainers.FirstOrDefault
-            (q => q.Eom == @Model.Eoms.FirstOrDefault
-                (q => q.Id == @Model.Contents.FirstOrDefault
-                (q => q.IdCoks == @Model.Coks.FirstOrDefault(q => q.Id == Convert.ToInt32(idCok)).Id).IdEom3).Id).Id).Test).Id).Id;
+     
     int idEom3 = Model.Eoms.FirstOrDefault(q=>q.Id == Model.Contents.FirstOrDefault(q=>q.Id == idContent).IdEom3).Id;
     var cok = Model.Coks.FirstOrDefault(q => q.Id == Convert.ToInt32(idCok));
     List<mvstwo.Model.VirtualTrainer> trainersV3 = Model.VirtualTrainers.Where(q => q.Eom == idEom3).ToList();
@@ -27,7 +22,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
-
+<div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+            </div>
+        </div>
+                
+    </header>
+</div>
 <h2>Создание темы для цифрового образовательного контента</h2>
 <form id="editCok" asp-action="editCok" asp-controller="CokMain" method="post">
     <p>
@@ -73,9 +93,15 @@
         <label>Ответ 1</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom1).Id" style="width: 50%;" />
     </p>
-        <p>
-        <input type="submit" value="Сохранить" />
-    </p>
+</form>
+<form asp-action="editLectionPage" asp-controller="CokMain" method="get">
+    <input type="number" name="IdCok" value="@idCoknow" readonly hidden>
+    <div class="flex_row" id="buttons_list_36762">
+        <button class="button"
+                type="submit">
+            Изменить ЭОМ
+        </button>
+    </div>
 </form>
 <form id="editEom1" asp-action="editEom" asp-controller="CokMain" method="post">
     <p>
@@ -86,10 +112,17 @@
         <label>Ответ 1</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom2).Id" style="width: 50%;" />
     </p>
-    <p>
-        <input type="submit" value="Сохранить" />
-    </p>
 </form>
+<form asp-action="editTrainerPage" asp-controller="CokMain" method="get">
+    <input type="number" name="IdCok" value="@idCoknow" readonly hidden>
+    <div class="flex_row" id="buttons_list_36762">
+        <button class="button"
+                type="submit">
+            Изменить ЭОМ
+        </button>
+    </div>
+</form>
+
 <form id="editEom2" asp-action="editEom" asp-controller="CokMain" method="post">
     <p>
         <label>ЕОМ 3</label><br />
@@ -99,31 +132,18 @@
         <label>Ответ 1</label><br />
         <input type="text" asp-for="@Model.Eoms.FirstOrDefault(q => q.Id == content.IdEom3).Id" style="width: 50%;" />
     </p>
-    <p>
-        <input type="submit" value="Сохранить" />
-    </p>
+</form>
+<form asp-action="editEomPage" asp-controller="CokMain" method="get">
+    <input type="number" name="IdCok" value="@idCoknow" readonly hidden>
+<div class="flex_row" id="buttons_list_36762">
+    <button class="button"
+            type="submit">
+        Изменить ЭОМ
+    </button>
+</div>
 </form>
 
-<br />
-<br /><label>Тесты</label>
-<br />
 
-@foreach (mvstwo.Model.VirtualTrainer virtualT in trainersV3)
-{
-    <form asp-controller="Cokmain" asp-action="edit" method="get">
-        <input type="number" name="IdCok" value="@virtualT.Id" readonly hidden>
-        <p>
-            <input type="text" asp-for="@virtualT.DescriptionCase" style="width: 50%;" />
-        </p>
-
-        <div class="flex_row" id="buttons_list_36762">
-            <button class="button"
-                    type="submit">
-                Изменить Тест
-            </button>
-        </div>
-    </form>
-}
 <script>
     document.getElementById('editCok').addEventListener('submit', function (event) {
         event.preventDefault(); // Предотвращаем стандартное поведение формы

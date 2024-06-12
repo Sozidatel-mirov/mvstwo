@@ -1,0 +1,126 @@
+﻿@model mvstwo.Model.OkeiSiteContext;
+@{
+    // Получаем HttpContext из контекста представления
+    var httpContext = Context.Request.HttpContext;
+    // Получаем значение параметра IdCok из строки запроса
+    int idContent = Convert.ToInt32(httpContext.Request.Query["IdCok"]);
+    mvstwo.Model.Lection lection = Model.Lections.FirstOrDefault(q=>q.Id == idContent);
+    mvstwo.Model.Eom eom = Model.Eoms.FirstOrDefault(q=>q.Id == lection.Eom);
+}
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+    <header class="header">
+        <div class="container">
+            <div class="inner2">
+                <nav>
+                    <img src="/image/logo.png" width="80" height="46" alt="">
+                </nav>
+                <h1>Цифровой образовательный контент</h1>
+                <div class="login">
+                    <a class="name-box_item_user" data-id="78325">@ViewBag.rar</a>
+                </div>
+                <div class="menu">
+                    <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
+                          onclick="openNav()">☰</span>
+                    <div id="mySidenav" class="sidenav">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                        <a asp-controller="CokMain" asp-action="Main">Главная</a>
+                        <a asp-controller="CokMain" asp-action="ProfileTeacher">Личный кабинет</a>
+                        <a asp-controller="CokMain" asp-action="LogOut">Выйти</a>
+                    </div>
+                    <script type="text/javascript" src="/app.js">   </script>
+            </div>
+        </div>
+                
+    </header>
+</div>
+<h2>Создание темы для цифрового образовательного контента</h2>
+<p>
+    <label>Наименование</label><br />
+        <input type="text" asp-for="@lection.Title" style="width: 50%;" />
+</p>
+<p hidden>
+    <label>Тема</label><br />
+    <input type="text" asp-for="@lection.Eom" style="width: 50%;" />
+</p>
+<p hidden>
+    <label>Тема</label><br />
+    <input type="text" asp-for="@lection.Id" style="width: 50%;" />
+</p>
+@{
+    int i = 1;
+}
+<br />
+@foreach (mvstwo.Model.LectionBlock lectionBlock in Model.LectionBlocks.Where(q => q.IdLection == lection.Id))
+{
+        <form id="editSequenceForm-@lectionBlock.Id" asp-action="editlection" asp-controller="CokMain" method="post">
+    <p hidden>
+        <label>Текст вопроса</label><br />
+                <input type="text" asp-for="@lectionBlock.Id" style="width: 50%;" />
+    </p>
+            <p hidden>
+                <label>Текст вопроса</label><br />
+                <input type="text" asp-for="@lectionBlock.IdLection" style="width: 50%;" />
+            </p>
+    <p>
+        <label>Абзац</label><br />
+        <input type="text" asp-for="@lectionBlock.Textlection" style="width: 50%;" />
+    </p>
+    <br />
+        <p hidden>
+           <input type="submit" value="Сохранить" />
+        </p>
+        </form>
+}
+    <form asp-action="editLectionPage" asp-controller="CokMain" method="get">
+        <input type="number" name="IdCok" value="@Model.Contents.FirstOrDefault(q=>q.IdEom1==eom.Id).IdCoks" readonly hidden>
+    <p>
+        <input id="guram" type="submit" value="Сохранить" />
+    </p>
+    </form>
+</body>
+
+<script>
+    document.getElementById('guram').addEventListener('click', function () {
+        // Получаем все формы внутри цикла
+        var forms = document.querySelectorAll('form[id^="editSequenceForm-"]');
+        // Проходимся по каждой форме
+        forms.forEach(function (form) {
+            // Создаем объект FormData для сбора данных формы
+            var formData = new FormData(form);
+
+            // Создаем новый XMLHttpRequest объект
+            var xhr = new XMLHttpRequest();
+
+            // Устанавливаем метод POST и URL для отправки данных формы
+            xhr.open('POST', form.action);
+
+            // Устанавливаем обработчик события для отслеживания состояния запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Действие при успешной отправке данных
+                        console.log('Данные успешно отправлены');
+                    } else {
+                        // Действие при ошибке отправки данных
+                        console.error('Ошибка при отправке данных:', xhr.status);
+                    }
+                }
+            };
+
+            // Отправляем данные формы
+            xhr.send(formData);
+        });
+    });
+</script>

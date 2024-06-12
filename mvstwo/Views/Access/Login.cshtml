@@ -1,4 +1,4 @@
-@model mvstwo.Models.User;
+@model mvstwo.Model.User;
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,10 +69,6 @@
                                 <br />
                                 <label>@ViewData["ValidateMessage"]</label>
                             }
-                            <!-- Флажок  -->
-                            <label>
-                                <input type="checkbox" checked="checked" asp-for="KeepLoggedIn" name="remember"> Запомнить пароль
-                            </label>
                             <div class="contain" style="background-color:#f1f1f1">
                                 <!-- Ссылка на восстановление пароля -->
                                 <span class="psw">Восстановить <a href="#">пароль?</a></span>

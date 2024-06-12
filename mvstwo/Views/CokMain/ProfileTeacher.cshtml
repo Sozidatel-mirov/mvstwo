@@ -82,12 +82,17 @@
                 Добавить тему
             </button>
             </a>
+            <a style="margin-left:5px" asp-controller="CokMain" asp-action="ResultPage">
+                <button class="button" type="submit">
+                    Просмотреть результаты тестов
+                </button>
+            </a>
         </div>
         <div style="display: flex; flex-direction: column;">
             
             @foreach(mvstwo.Model.Cok cok in Model.Coks)
             {
-                <form asp-controller="Cokmain" asp-action="editCokPage" method="get">
+                
                 <div>
                     <div class="content1">
                         <div class="course_flex">
@@ -98,7 +103,7 @@
                                             <div style="background-image: url(/upload/resize_cache/iblock/280/325_230_2/Fedorova_601319679_Fedorova_230x325.jpg)"
                                                  class="catalogue_main_img">
                                                 <img src="..\image\icon\top50.png">
-                                                <input type="number" name="IdCok" value="@cok.Id" readonly hidden>
+                                                
                                             </div>
                                         </div>
                                         <ul>
@@ -112,12 +117,24 @@
                                             Компетенции:
                                             <i style="font-style: italic;">@cok.Mdk</i>
                                         </div>
+                                        <form asp-controller="Cokmain" asp-action="editCokPage" method="get">
                                         <div class="flex_row" id="buttons_list_36762">
                                             <button class="button"
                                                       type="submit">
                                                 Изменить Тему
                                             </button>
+                                            <input type="number" name="IdCok" value="@cok.Id" readonly hidden>
                                         </div>
+                                        </form>
+                                        <form asp-controller="Cokmain" asp-action="deleteCok" method="post">
+                                        <div class="flex_row" id="buttons_list_36762">
+                                                <input type="number" name="a" value="@cok.Id" readonly hidden>
+                                            <button class="button"
+                                                      type="submit">
+                                                Удалить Тему
+                                            </button>
+                                        </div>
+                                        </form>
                                         <div class="all_pr white pr" style="display:block;height:24px">
                                             <div class="pr green" style="display:block;width:0%"></div>
                                         </div>
@@ -136,7 +153,7 @@
                         </div>
                     </div>
                     </div>
-                </form>
+                
             }
             
         </div>
