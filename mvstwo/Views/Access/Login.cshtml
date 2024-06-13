@@ -1,140 +1,100 @@
 @model mvstwo.Model.User;
 <!DOCTYPE html>
-<html lang="en">
-
+<html style="font-size: 16px;" lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Цифровой образовательный контент «Оренбургский колледж экономики и информатики»</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="​Добро пожаловать в цифровой образовательный контент колледжа ОКЭИ!">
+    <meta name="description" content="">
+    <title>Главная</title>
+    <link rel="stylesheet" href="/iexplore/nicepage.css" media="screen">
+    <link rel="stylesheet" href="/iexplore/Главная.css" media="screen">
+    <script class="u-script" type="text/javascript" src="/iexplore/jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="/iexplore/nicepage.js" defer=""></script>
+    <meta name="generator" content="Nicepage 6.10.5, nicepage.com">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-</head>
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700">
 
-<body>
-    <div class="main">
-        <header class="header">
-            <div class="container">
-                <div class="inner2">
-                    <nav>
-                        <img src="/image/logo.png" width="80" height="46" alt="">
-                    </nav>
-                    <h1 >Цифровой образовательный контент</h1>
-                    <div class="login">
+
+
+    <script type="application/ld+json">
+        {
+                @* "@context": "http://schema.org",
+                "@type": "Organization",
+                "name": "" *@
+        }</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Главная">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
+</head>
+<body data-home-page="Главная.html" data-home-page-title="Главная" data-path-to-root="./" data-include-products="true" class="u-body u-xl-mode" data-lang="ru">
+    <section class="u-clearfix u-section-1" id="carousel_9c8d">
+        <div class="u-custom-color-1 u-expanded-height u-shape u-shape-rectangle u-shape-1"></div>
+        <img class="u-image u-image-contain u-image-default u-image-1" src="/iexplore/images/logo.png" alt="" data-image-width="600" data-image-height="380">
+        <div class="data-layout-selected u-clearfix u-gutter-20 u-layout-wrap u-layout-wrap-1">
+            <div class="u-layout">
+                <div class="u-layout-row">
+                    <div class="u-container-style u-layout-cell u-left-cell u-size-24 u-layout-cell-1">
+                        <div class="u-container-layout u-container-layout-1">
+                            <h2 class="u-custom-font u-font-oswald u-text u-text-1"> Добро пожаловать в цифровой образовательный контент колледжа ОКЭИ!</h2>
+                            <p class="u-text u-text-2"> Перейдите к странице авторизации, чтобы получить доступ к учебным ресурсам и материалам.</p>
+                            <a href="#" onclick="document.getElementById('openModalr').style.display='block'" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-1 u-hover-palette-1-dark-1 u-radius u-btn-1">Авторизироваться </a>
+                            <div class="u-container-style u-group u-image u-image-tiles u-image-2" data-image-width="100" data-image-height="60">
+                                <div class="u-container-layout u-container-layout-2"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="menu">
-                        <span style="font: size 40px;cursor:pointer; color: #2e57ed;margin-left: auto;"
-                            onclick="openNav()">☰</span>
-                        <div id="mySidenav" class="sidenav">
-                            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                            <a asp-controller="Access" asp-action="Login">Главная</a>
-                            <a href="#" onclick="document.getElementById('openModalr').style.display='block'">
-                                Войти в
-                                систему
-                            </a>
+                    <div class="u-container-style u-layout-cell u-right-cell u-size-36 u-layout-cell-2">
+                        <div class="u-container-layout">
+                            <img class="custom-expanded u-image u-image-3" src="/iexplore/images/724g.jpg">
                         </div>
                     </div>
-                    <script type="text/javascript" src="/app.js">   </script>
-                </div>
-                <!-- Модальное окно -->
-                <div id="openModalr" class="modalr">
-                    <!-- Кнопка для закрытия модального окна -->
-                    <span onclick="document.getElementById('openModalr').style.display='none'" class="close"
-                        title="Close Modal">&times;</span>
-                    <!-- Содержимое модального окна -->
-                    <form class="modalr-content" asp-controller="Access" asp-action="Login" method="post">
-                        <div class="imgcontainer">
-                            <img src="../image/logo.png" alt="Logo" class="logo">
-                        </div>
-                        <div class="conta">
-                            <div class="contname">
-                                <!-- Поле ввода логина -->
-                                <label for="uname"><b>Логин</b></label>
-                                <input type="text" placeholder="Введите Логин" asp-for="Login" name="Login" required>
-                            </div>
-                            <!-- Поле ввода пароля -->
-                            <div class="password">
-                                <label for="psw"><b>Пароль</b></label>
-                                <input type="password" id="password-input" asp-for="Password" placeholder="Введите пароль" required
-                                    name="password">
-                                <a href="#" class="password-control"
-                                    onclick="return show_hide_password(this);"></a>
-                            </div>
-                            <!-- Кнопка для отправки формы -->
-                            <button type="submit">Вход</button>
-                            @if(ViewData["ValidateMessage"] != null)
-                            {
-                                <br />
-                                <label>@ViewData["ValidateMessage"]</label>
-                            }
-                            <div class="contain" style="background-color:#f1f1f1">
-                                <!-- Ссылка на восстановление пароля -->
-                                <span class="psw">Восстановить <a href="#">пароль?</a></span>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </header>
+        </div>
+    </section>
+
+    <div id="openModalr" class="modalr">
+        <!-- Кнопка для закрытия модального окна -->
+        <span onclick="document.getElementById('openModalr').style.display='none'" class="close"
+              title="Close Modal">&times;</span>
+        <!-- Содержимое модального окна -->
+        <form class="modalr-content" asp-controller="Access" asp-action="Login" method="post">
+            <div class="imgcontainer">
+                <img src="../image/logo.png" alt="Logo" class="logo">
+            </div>
+            <div class="conta">
+                <div class="contname">
+                    <!-- Поле ввода логина -->
+                    <label for="uname"><b>Логин</b></label>
+                    <input type="text" placeholder="Введите Логин" asp-for="Login" name="Login" required>
+                </div>
+                <!-- Поле ввода пароля -->
+                <div class="password">
+                    <label for="psw"><b>Пароль</b></label>
+                    <input type="password" id="password-input" asp-for="Password" placeholder="Введите пароль" required
+                           name="password">
+                    <a href="#" class="password-control"
+                       onclick="return show_hide_password(this);"></a>
+                </div>
+                <!-- Кнопка для отправки формы -->
+                <button type="submit">Вход</button>
+                @if (ViewData["ValidateMessage"] != null)
+                {
+                    <br />
+                    <label>@ViewData["ValidateMessage"]</label>
+                }
+                <div class="contain" style="background-color:#f1f1f1">
+                    <!-- Ссылка на восстановление пароля -->
+                    <span class="psw">Восстановить <a href="#">пароль?</a></span>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <footer class="footer">
-        <div class="pagination_loader" style="position:fixed; bottom:65px; right:10px">
-        </div>
-        <div id="up">&#10148;</div>
-    </footer>
-    <div class="preloader"><img src="/image\ob\ajax-loader.gif"></div>
-    <script>
-        var upElem = document.getElementById('up');
-        var pageYLabel = 0;
-        var timeDuration;
 
-        upElem.onclick = function () {
-            var pageY = window.pageYOffset || document.documentElement.scrollTop;
-            switch (this.className) {
-                case 'up':
-                    pageYLabel = pageY;
-                    smoothScrolling();
-                    this.className = '';
-                    break;
-
-                case '':
-                    window.scrollTo(0, pageYLabel);
-                    this.className = 'up';
-            }
-        };
-
-        window.onscroll = function () {
-            var pageY = window.pageYOffset || document.documentElement.scrollTop;
-            var innerHeight = document.documentElement.clientHeight;
-
-            switch (upElem.className) {
-                case '':
-                    rowLength = $('.test_row').length;
-                    if (rowLength > $('.student_elem.active').length) {
-                        rowLength = $('.student_elem.active').length;
-                    }
-                    if (pageY > innerHeight) {
-                        upElem.className = 'up';
-                        if ($('.test_row').length != 0) {
-                            $('.pagination_loader').html(rowLength + ' из ' + $('.student_elem.active').length)
-                            $('.pagination_loader').show();
-                        }
-                    }
-                    break;
-
-                case 'up':
-                    if (pageY < innerHeight) {
-                        upElem.className = '';
-                        $('.pagination_loader').hide();
-                    }
-                    break;
-            }
-        };
-
-    </script>
 </body>
-
 </html>
